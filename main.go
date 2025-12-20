@@ -23,6 +23,8 @@ func main() {
 		Answer:  0,
 	}
 
+	sections := []string{"Биология"}
+
 	biologyQuestions := map[int]string{
 		1: "Проснулся(-ась) в одно и то же время, чувствуя себя отдохнувшим? (1-5)",
 		2: "Избегал простых сахаров и обработанной еды? (1- в питании было много сахара, 5 - сахара, обработанной еды  вообще не было)",
@@ -30,21 +32,23 @@ func main() {
 	}
 
 	var answer int
-	var countQuestion int = 1
+	var numQuestion int = 1
+	var numSection int = 0
 
 	for {
-		fmt.Println(question.Section) // Секция
+		question.Section = sections[numSection]
+		question.Title = biologyQuestions[numQuestion]
 
-		question.Title = biologyQuestions[countQuestion]
-		fmt.Println(question.Title) // Вопрос
-
-		fmt.Scanln(&answer) // Ответ
+		fmt.Printf("Секция: %s\nВопрос: %s\n", question.Section, question.Title)
+		fmt.Printf("Ответ:  ")
+		fmt.Scanln(&answer)
 		question.Answer = answer
+		fmt.Println("----------------")
 
-		if countQuestion == len(biologyQuestions) {
+		if numQuestion == len(biologyQuestions) {
 			break
 		} else {
-			countQuestion++
+			numQuestion++
 			continue
 		}
 
