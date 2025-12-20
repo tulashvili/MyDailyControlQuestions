@@ -16,21 +16,38 @@ type Question struct {
 	Answer int
 }
 
-// func (q *Question) askQuestion() {
-// }
-
-func (q *Question) inputAnswer() {
-	var input int
-	fmt.Scanln("Введите ответ на вопрос:", &input)
-	input = q.Answer
-}
-
 func main() {
 	question := Question{
 		Section: "Биология",
 		Title:   "Проснулся(-ась) в одно и то же время, чувствуя себя отдохнувшим? (1-5)",
 		Answer:  0,
 	}
-	question.inputAnswer()
-	fmt.Printf("Секция: %s\nВопрос: %s\nОтвет: %d\n", question.Section, question.Title, question.Answer)
+
+	biologyQuestions := map[int]string{
+		1: "Проснулся(-ась) в одно и то же время, чувствуя себя отдохнувшим? (1-5)",
+		2: "Избегал простых сахаров и обработанной еды? (1- в питании было много сахара, 5 - сахара, обработанной еды  вообще не было)",
+		3: "В рационе было достаточно белка и клетчатки? (1 - не было вообще, 5 - да)клетчатка содержится в фруктах, овощах, бобовых",
+	}
+
+	var answer int
+	var countQuestion int = 1
+
+	for {
+		fmt.Println(question.Section) // Секция
+
+		question.Title = biologyQuestions[countQuestion]
+		fmt.Println(question.Title) // Вопрос
+
+		fmt.Scanln(&answer) // Ответ
+		question.Answer = answer
+
+		if countQuestion == len(biologyQuestions) {
+			break
+		} else {
+			countQuestion++
+			continue
+		}
+
+	}
+
 }
