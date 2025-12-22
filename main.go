@@ -14,6 +14,8 @@ func giveQuestions() {
 		}
 		fmt.Scanln(&initAnswer.Scale)
 		fmt.Println("Ответ:", initAnswer.Scale)
+
+		
 		fmt.Println("--------------------")
 
 	}
