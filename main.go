@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func main() {
+func giveQuestions() {
 	for _, questions := range QUESTIONS {
 
 		fmt.Println("Категория:", questions.Category)
@@ -17,4 +17,7 @@ func main() {
 		fmt.Println("--------------------")
 
 	}
+}
+func main() {
+	giveQuestions()
 }
