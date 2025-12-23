@@ -1,14 +1,15 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"os"
 )
 
-func askQuestionsAndSaveAnswers() {
+func askQuestions() []Answer {
 	var answers = []Answer{}
 
 	for _, question := range QUESTIONS {
-		fmt.Println(question)
 		fmt.Println("Категория:", question.Category)
 		fmt.Println("Вопрос:", question.Text)
 
@@ -20,40 +21,21 @@ func askQuestionsAndSaveAnswers() {
 			Scale:    answer,
 		})
 	}
-
-	for i := 0; i < len(answers); i++ {
-		fmt.Println("Категория:", answers[i].Question.Category)
-		fmt.Println("Вопрос:", answers[i].Question.Text)
-		fmt.Println("Ответ:", answers[i].Scale)
-		fmt.Println()
-	}
+	return answers
 }
 
-// func saveAnswer(answer []int) {
-// 	var answers = []Answer{
-// 		{
-// 			Scale: 0,
-// 		},
-// 	}
-// 	storage := Storage{
-// 		AnswerCategory: "Category",
-// 		AnswerQuestion: "Question",
-// 		AnswerUser:     answer,
-// 	}
+func saveAnswers(answers []Answer) {
+	data, err := json.Marshal(answers)
+	if err != nil {
+		panic(err)
+	}
+	err = os.WriteFile("answers_out.json", data, 0644)
+	if err != nil {
+		panic(err)
+	}
 
-// }
+}
 func main() {
-	askQuestionsAndSaveAnswers()
-
-	// data, err := json.Marshal(answerFile.AnswerUser)
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// err = os.WriteFile("answers_output.json", data, 0644)
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// fmt.Println("--------------------")
+	answers := askQuestions()
+	saveAnswers(answers)
 }
