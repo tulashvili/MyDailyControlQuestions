@@ -1,6 +1,6 @@
 package main
 
 type Answer struct {
-	// ответ
-	Scale int
+	Question Question
+	Scale    int
 }
