@@ -6,8 +6,8 @@ import (
 	"os"
 )
 
-func askQuestions() []Answer {
-	var answers = []Answer{}
+func askQuestions() []Entry {
+	var answers = []Entry{}
 
 	for _, question := range QUESTIONS {
 		fmt.Println("Категория:", question.Category)
@@ -16,17 +16,16 @@ func askQuestions() []Answer {
 		var answer int
 		fmt.Scanln(&answer)
 
-		answers = append(answers, Answer{
-			Category: string(question.Category),
-			Question: string(question.Text),
-			Scale:    answer,
+		answers = append(answers, Entry{
+			Question: question,
+			Answer:   Answer{answer},
 		})
 	}
 	return answers
 }
 
-func saveAnswers(answers []Answer) {
-	data, err := json.Marshal(answers)
+func saveAnswers(answers []Entry) {
+	data, err := json.MarshalIndent(answers, "", "  ")
 	if err != nil {
 		panic(err)
 	}
