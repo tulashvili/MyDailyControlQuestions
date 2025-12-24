@@ -17,7 +17,8 @@ func askQuestions() []Answer {
 		fmt.Scanln(&answer)
 
 		answers = append(answers, Answer{
-			Question: question,
+			Category: string(question.Category),
+			Question: string(question.Text),
 			Scale:    answer,
 		})
 	}

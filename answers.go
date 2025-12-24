@@ -1,6 +1,7 @@
 package main
 
 type Answer struct {
-	Question Question
+	Category string
+	Question string
 	Scale    int
 }
