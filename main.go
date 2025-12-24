@@ -18,7 +18,7 @@ func askQuestions() []Entry {
 
 		answers = append(answers, Entry{
 			Question: question,
-			Answer:   Answer{},
+			Answer:   Answer{answer},
 		})
 	}
 	return answers
