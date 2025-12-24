@@ -1,4 +1,4 @@
-package main
+package domain
 
 type Entry struct {
 	Question Question `json:"Question"`

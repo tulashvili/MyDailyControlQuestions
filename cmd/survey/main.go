@@ -4,27 +4,29 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+
+	"github.com/tulashvili/MyDailyControlQuestions/internal/domain"
 )
 
-func askQuestions() []Entry {
-	var answers = []Entry{}
+func askQuestions() []domain.Entry {
+	var answers = []domain.Entry{}
 
-	for _, question := range QUESTIONS {
+	for _, question := range domain.QUESTIONS {
 		fmt.Println("Категория:", question.Category)
 		fmt.Println("Вопрос:", question.Text)
 
 		var answer int
 		fmt.Scanln(&answer)
 
-		answers = append(answers, Entry{
+		answers = append(answers, domain.Entry{
 			Question: question,
-			Answer:   Answer{answer},
+			Answer:   domain.Answer{answer},
 		})
 	}
 	return answers
 }
 
-func saveAnswers(answers []Entry) {
+func saveAnswers(answers []domain.Entry) {
 	data, err := json.MarshalIndent(answers, "", "  ")
 	if err != nil {
 		panic(err)
