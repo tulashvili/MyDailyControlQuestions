@@ -25,7 +25,7 @@ func askQuestions() []Entry {
 }
 
 func saveAnswers(answers []Entry) {
-	data, err := json.Marshal(answers)
+	data, err := json.MarshalIndent(answers, "", "  ")
 	if err != nil {
 		panic(err)
 	}
