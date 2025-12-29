@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/tulashvili/MyDailyControlQuestions/internal/model"
 )
@@ -14,7 +15,6 @@ func askQuestions() []model.Entry {
 	for _, question := range model.QUESTIONS {
 		fmt.Println("Категория:", question.Category)
 		fmt.Println("Вопрос:", question.Text)
-
 		var answer int
 		fmt.Scanln(&answer)
 
@@ -27,7 +27,18 @@ func askQuestions() []model.Entry {
 }
 
 func saveAnswers(answers []model.Entry) {
-	data, err := json.MarshalIndent(answers, "", "  ")
+	var date = model.Date{
+		Day:   time.Now().Day(),
+		Month: time.Now().Month().String(),
+		Year:  time.Now().Year(),
+	}
+
+	var dailyLog = model.DailyLog{
+		Date:    date,
+		Entries: answers,
+	}
+
+	data, err := json.MarshalIndent(dailyLog, "", "  ")
 	if err != nil {
 		panic(err)
 	}
