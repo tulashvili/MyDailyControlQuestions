@@ -18,10 +18,18 @@ func askQuestions() []model.Entry {
 		var answer int
 		fmt.Scanln(&answer)
 
-		answers = append(answers, model.Entry{
-			Question: question,
-			Answer:   model.Answer{answer},
-		})
+		if answer > 5 {
+			for answer < 1 || answer > 5 {
+				fmt.Println("Ответ должен быть в диапазоне от 1 до 5")
+				fmt.Println("Введи значение заново")
+				fmt.Scanln(&answer)
+			}
+		} else {
+			answers = append(answers, model.Entry{
+				Question: question,
+				Answer:   model.Answer{answer},
+			})
+		}
 	}
 	return answers
 }
@@ -48,6 +56,7 @@ func saveAnswers(answers []model.Entry) {
 	}
 
 }
+
 func main() {
 	answers := askQuestions()
 	saveAnswers(answers)
