@@ -1,4 +1,4 @@
-package domain
+package model
 
 type Answer struct {
 	Scale int `json:"Scale"`

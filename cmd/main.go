@@ -5,28 +5,28 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/tulashvili/MyDailyControlQuestions/internal/domain"
+	"github.com/tulashvili/MyDailyControlQuestions/internal/model"
 )
 
-func askQuestions() []domain.Entry {
-	var answers = []domain.Entry{}
+func askQuestions() []model.Entry {
+	var answers = []model.Entry{}
 
-	for _, question := range domain.QUESTIONS {
+	for _, question := range model.QUESTIONS {
 		fmt.Println("Категория:", question.Category)
 		fmt.Println("Вопрос:", question.Text)
 
 		var answer int
 		fmt.Scanln(&answer)
 
-		answers = append(answers, domain.Entry{
+		answers = append(answers, model.Entry{
 			Question: question,
-			Answer:   domain.Answer{answer},
+			Answer:   model.Answer{answer},
 		})
 	}
 	return answers
 }
 
-func saveAnswers(answers []domain.Entry) {
+func saveAnswers(answers []model.Entry) {
 	data, err := json.MarshalIndent(answers, "", "  ")
 	if err != nil {
 		panic(err)
