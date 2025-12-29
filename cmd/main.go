@@ -4,27 +4,29 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+
+	"github.com/tulashvili/MyDailyControlQuestions/internal/model"
 )
 
-func askQuestions() []Entry {
-	var answers = []Entry{}
+func askQuestions() []model.Entry {
+	var answers = []model.Entry{}
 
-	for _, question := range QUESTIONS {
+	for _, question := range model.QUESTIONS {
 		fmt.Println("Категория:", question.Category)
 		fmt.Println("Вопрос:", question.Text)
 
 		var answer int
 		fmt.Scanln(&answer)
 
-		answers = append(answers, Entry{
+		answers = append(answers, model.Entry{
 			Question: question,
-			Answer:   Answer{answer},
+			Answer:   model.Answer{answer},
 		})
 	}
 	return answers
 }
 
-func saveAnswers(answers []Entry) {
+func saveAnswers(answers []model.Entry) {
 	data, err := json.MarshalIndent(answers, "", "  ")
 	if err != nil {
 		panic(err)

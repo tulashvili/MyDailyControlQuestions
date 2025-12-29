@@ -1,4 +1,4 @@
-package main
+package model
 
 type Entry struct {
 	Question Question `json:"Question"`

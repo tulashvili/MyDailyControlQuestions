@@ -1,7 +1,4 @@
-package main
-
-// тот же package, потому на текущий момент реализации логики
-// questions не может существовать без main.go
+package model
 
 type Category string
 type Text string
