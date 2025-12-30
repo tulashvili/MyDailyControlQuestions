@@ -1,6 +1,6 @@
 package model
 
 type DailyLog struct {
-	Date    Date
+	Date    Day
 	Entries []Entry
 }

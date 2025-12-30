@@ -1,7 +1,7 @@
 package model
 
-type Date struct {
-	Day   int
-	Month string
-	Year  int
+import "time"
+
+type Day struct {
+	Date time.Time
 }

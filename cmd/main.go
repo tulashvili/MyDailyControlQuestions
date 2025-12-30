@@ -34,12 +34,14 @@ func askQuestions() []model.Entry {
 	return answers
 }
 
-func saveAnswers(answers []model.Entry) {
-	var date = model.Date{
-		Day:   time.Now().Day(),
-		Month: time.Now().Month().String(),
-		Year:  time.Now().Year(),
+func NewDay(t time.Time) model.Day {
+	y, m, d := t.Date()
+	return model.Day{
+		Date: time.Date(y, m, d, 0, 0, 0, 0, t.Location()),
 	}
+}
+func saveAnswers(answers []model.Entry) {
+	var date = NewDay(time.Now())
 
 	var dailyLog = model.DailyLog{
 		Date:    date,
