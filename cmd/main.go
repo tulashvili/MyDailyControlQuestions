@@ -3,11 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"time"
 
 	"github.com/tulashvili/MyDailyControlQuestions/internal/model"
 )
+
+const answersFile = "qa.json"
 
 func askQuestions() []model.Entry {
 	var answers = []model.Entry{}
@@ -40,6 +43,23 @@ func NewDay(t time.Time) model.Day {
 		Date: time.Date(y, m, d, 0, 0, 0, 0, t.Location()),
 	}
 }
+
+func checkAnswersDay() {
+	data, err := os.ReadFile(answersFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var dailyLog model.DailyLog
+	err = json.Unmarshal(data, &dailyLog)
+	if err != nil {
+		panic(err)
+	}
+	// fmt.Println(dailyLog.Date, dailyLog.Entries)
+	// Output
+	// {2025-12-30 00:00:00 +0300 MSK} [{{Психология Насколько высокий уровень стресса сегодня? (1 - очень стрессовый день, 5 - стресса почти не было)} {4}}]
+}
+
 func saveAnswers(answers []model.Entry) {
 	var date = NewDay(time.Now())
 
@@ -52,7 +72,7 @@ func saveAnswers(answers []model.Entry) {
 	if err != nil {
 		panic(err)
 	}
-	err = os.WriteFile("answers_out.json", data, 0644)
+	err = os.WriteFile(answersFile, data, 0644)
 	if err != nil {
 		panic(err)
 	}
@@ -61,5 +81,7 @@ func saveAnswers(answers []model.Entry) {
 
 func main() {
 	answers := askQuestions()
+	checkAnswersDay()
 	saveAnswers(answers)
+
 }
