@@ -1,6 +1,11 @@
 package model
 
+import "time"
+
 type Entry struct {
-	Question Question `json:"Question"`
-	Answer   Answer   `json:"Answer"`
+	ID               int
+	QuestionCategory string
+	QuestionText     string
+	Answer           int
+	CompletedAt      *time.Time
 }

@@ -13,30 +13,30 @@ import (
 
 const answersFile = "qa.json"
 
-func askQuestions() []model.Entry {
-	var answers = []model.Entry{}
+// func askQuestions() []model.Entry {
+// 	var answers = []model.Entry{}
 
-	for _, question := range model.QUESTIONS {
-		fmt.Println("Категория:", question.Category)
-		fmt.Println("Вопрос:", question.Text)
-		var answer int
-		fmt.Scanln(&answer)
+// 	for _, question := range model.QUESTIONS {
+// 		fmt.Println("Категория:", question.Category)
+// 		fmt.Println("Вопрос:", question.Text)
+// 		var answer int
+// 		fmt.Scanln(&answer)
 
-		if answer > 5 {
-			for answer < 1 || answer > 5 {
-				fmt.Println("Ответ должен быть в диапазоне от 1 до 5")
-				fmt.Println("Введи значение заново")
-				fmt.Scanln(&answer)
-			}
-		} else {
-			answers = append(answers, model.Entry{
-				Question: question,
-				Answer:   model.Answer{answer},
-			})
-		}
-	}
-	return answers
-}
+// 		if answer > 5 {
+// 			for answer < 1 || answer > 5 {
+// 				fmt.Println("Ответ должен быть в диапазоне от 1 до 5")
+// 				fmt.Println("Введи значение заново")
+// 				fmt.Scanln(&answer)
+// 			}
+// 		} else {
+// 			answers = append(answers, model.Entry{
+// 				Question: question,
+// 				Answer:   model.Answer{answer},
+// 			})
+// 		}
+// 	}
+// 	return answers
+// }
 
 func NewDay(t time.Time) model.Day {
 	y, m, d := t.Date()
@@ -92,6 +92,18 @@ func main() {
 	if err := sqlite3.CreateTable(conn); err != nil {
 		log.Fatal(err)
 	}
+
+	now := time.Now()
+	data := model.Entry{
+		QuestionCategory: "Bio",
+		QuestionText:     "Как ты себя сегодня чувствуешь?",
+		Answer:           3,
+		CompletedAt:      &now,
+	}
+	if err := sqlite3.InsertRows(conn, data); err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("✅ Данные успешно добавлены в таблицу daily_log")
 	// saveAnswers(answers)
 
 }

@@ -17,12 +17,12 @@ func CreateTable(conn *sql.DB) error {
 	query := `
 	CREATE TABLE IF NOT EXISTS daily_log (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		day TEXT NOT NULL,
 		category TEXT NOT NULL,
 		question TEXT NOT NULL,
 		scale INTEGER NOT NULL,
+		completedAt TEXT NOT NULL,
 
-		UNIQUE (day)
+		UNIQUE (completedAt)
 	);
 	`
 	_, err := conn.Exec(query)
