@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/tulashvili/MyDailyControlQuestions/internal/model"
+	"github.com/tulashvili/MyDailyControlQuestions/internal/storage/sqlite3"
 )
 
 const answersFile = "qa.json"
@@ -44,21 +45,21 @@ func NewDay(t time.Time) model.Day {
 	}
 }
 
-func checkAnswersDay() {
-	data, err := os.ReadFile(answersFile)
-	if err != nil {
-		log.Fatal(err)
-	}
+// func checkAnswersDay() {
+// 	data, err := os.ReadFile(answersFile)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
 
-	var dailyLog model.DailyLog
-	err = json.Unmarshal(data, &dailyLog)
-	if err != nil {
-		panic(err)
-	}
-	// fmt.Println(dailyLog.Date, dailyLog.Entries)
-	// Output
-	// {2025-12-30 00:00:00 +0300 MSK} [{{Психология Насколько высокий уровень стресса сегодня? (1 - очень стрессовый день, 5 - стресса почти не было)} {4}}]
-}
+// 	var dailyLog model.DailyLog
+// 	err = json.Unmarshal(data, &dailyLog)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	// fmt.Println(dailyLog.Date, dailyLog.Entries)
+// 	// Output
+// 	// {2025-12-30 00:00:00 +0300 MSK} [{{Психология Насколько высокий уровень стресса сегодня? (1 - очень стрессовый день, 5 - стресса почти не было)} {4}}]
+// }
 
 func saveAnswers(answers []model.Entry) {
 	var date = NewDay(time.Now())
@@ -80,8 +81,17 @@ func saveAnswers(answers []model.Entry) {
 }
 
 func main() {
-	answers := askQuestions()
-	checkAnswersDay()
-	saveAnswers(answers)
+	// answers := askQuestions()
+	// checkAnswersDay()
+	pathToDB := sqlite3.SqliteConf{PathToDB: "sqlite3.db"}
+	conn, err := sqlite3.OpenConnection(pathToDB)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err := sqlite3.CreateTable(conn); err != nil {
+		log.Fatal(err)
+	}
+	// saveAnswers(answers)
 
 }
