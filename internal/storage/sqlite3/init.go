@@ -7,9 +7,9 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func OpenConnection(s SqliteConf) (*sql.DB, error) {
-	fmt.Printf("🔌 Соединение с базой %s установлено\n", s.PathToDB)
-	return sql.Open("sqlite3", s.PathToDB)
+func InitDB(databasePath string) (*sql.DB, error) {
+	fmt.Printf("🔌 Соединение с базой %s установлено\n", databasePath)
+	return sql.Open("sqlite3", databasePath)
 
 }
 
@@ -19,10 +19,10 @@ func CreateTable(conn *sql.DB) error {
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		category TEXT NOT NULL,
 		question TEXT NOT NULL,
-		scale INTEGER NOT NULL,
-		completedAt TEXT NOT NULL,
+		answer INTEGER NOT NULL,
+		answeredAt TEXT NOT NULL,
 
-		UNIQUE (completedAt)
+		UNIQUE (answeredAt)
 	);
 	`
 	_, err := conn.Exec(query)

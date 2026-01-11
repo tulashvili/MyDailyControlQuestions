@@ -3,21 +3,20 @@ package sqlite3
 import (
 	"database/sql"
 
-	"github.com/tulashvili/MyDailyControlQuestions/internal/model"
+	"github.com/tulashvili/MyDailyControlQuestions/internal/models"
 )
 
-func InsertRows(conn *sql.DB, data model.Entry) error {
+func InsertRow(conn *sql.DB, data models.UserAnswer) error {
 	query := `
-	INSERT INTO daily_log (category, question, scale, completedAt)
-	VALUES ($1, $2, $3, $4)
-	;
+	INSERT INTO daily_log (category, question, answer, answeredAt)
+	VALUES (?, ?, ?, ?)
 	`
 	_, err := conn.Exec(
 		query,
 		data.QuestionCategory,
 		data.QuestionText,
 		data.Answer,
-		data.CompletedAt,
+		data.AnsweredAt,
 	)
 	return err
 }
