@@ -42,7 +42,7 @@ func SelectRows(conn *sql.DB) ([]UserAnswerRow, error) {
 
 	response, err := conn.Query(query)
 
-	currentDay := make([]UserAnswerRow, 0)
+	currentDay := make([]UserAnswerRow, 0) // rename variable?
 
 	for response.Next() {
 		var row UserAnswerRow
