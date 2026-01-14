@@ -2,6 +2,7 @@ package storage
 
 import (
 	"database/sql"
+	"fmt"
 
 	"github.com/tulashvili/MyDailyControlQuestions/internal/models"
 )
@@ -42,7 +43,7 @@ func SelectRows(conn *sql.DB) ([]UserAnswerRow, error) {
 
 	response, err := conn.Query(query)
 
-	currentDay := make([]UserAnswerRow, 0) // rename variable?
+	userAnswerRow := make([]UserAnswerRow, 0)
 
 	for response.Next() {
 		var row UserAnswerRow
@@ -57,7 +58,17 @@ func SelectRows(conn *sql.DB) ([]UserAnswerRow, error) {
 		if err != nil {
 			return nil, err
 		}
-		currentDay = append(currentDay, row)
+		userAnswerRow = append(userAnswerRow, row)
+		formatedPrintResult(row)
 	}
-	return currentDay, err
+	return userAnswerRow, err
+}
+
+func formatedPrintResult(userAnswer UserAnswerRow) {
+	fmt.Println("---------------------")
+	fmt.Println("ID:", userAnswer.ID)
+	fmt.Println("Дата:", userAnswer.AnsweredAt)
+	fmt.Println("Категория:", userAnswer.Category)
+	fmt.Println("Вопрос:", userAnswer.Question)
+	fmt.Println("Ответ:", userAnswer.Answer)
 }
