@@ -1,4 +1,4 @@
-package sqlite3
+package storage
 
 import (
 	"database/sql"
@@ -8,7 +8,7 @@ import (
 )
 
 func InitDB(databasePath string) (*sql.DB, error) {
-	fmt.Printf("🔌 Соединение с базой %s установлено\n", databasePath)
+	fmt.Printf("🔌 Соединение с базой %s установлено\n", databasePath) // change to log?
 	return sql.Open("sqlite3", databasePath)
 
 }
@@ -26,6 +26,6 @@ func CreateTable(conn *sql.DB) error {
 	);
 	`
 	_, err := conn.Exec(query)
-	fmt.Println("✅ Таблица daily_log готова к использованию")
+	fmt.Println("✅ Таблица daily_log готова к использованию") // change to log?
 	return err
 }

@@ -38,9 +38,3 @@ func AskQuestion(questions []models.Question) []models.UserAnswer {
 	}
 	return result
 }
-
-func PrintResult(result []models.UserAnswer) {
-	for _, v := range result {
-		fmt.Println(v)
-	}
-}
