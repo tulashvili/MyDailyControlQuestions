@@ -33,7 +33,7 @@ func main() {
 	}
 	fmt.Println("✅ Данные успешно добавлены в таблицу daily_log") // change to log?
 
-	storage.SelectRows(conn)
+	storage.SelectRows(conn, 2)
 	if err != nil {
 		log.Fatal("error select data from db", err)
 	}

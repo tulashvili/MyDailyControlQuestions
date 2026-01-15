@@ -35,13 +35,14 @@ func InsertRow(conn *sql.DB, data models.UserAnswer) error {
 }
 
 // Get data over some period
-func SelectRows(conn *sql.DB) ([]UserAnswerRow, error) {
+func SelectRows(conn *sql.DB, period int) ([]UserAnswerRow, error) {
+	periodDay := fmt.Sprintf("-%d days", period)
 	query := `
 	SELECT * FROM daily_log
-	WHERE answeredAt >= datetime('now', '-7 days');
+	WHERE answeredAt >= datetime('now', ?);
 	`
 
-	response, err := conn.Query(query)
+	response, err := conn.Query(query, periodDay)
 
 	userAnswerRow := make([]UserAnswerRow, 0)
 
@@ -64,6 +65,7 @@ func SelectRows(conn *sql.DB) ([]UserAnswerRow, error) {
 	return userAnswerRow, err
 }
 
+// Formated result from SelectRow
 func formatedPrintResult(userAnswer UserAnswerRow) {
 	fmt.Println("---------------------")
 	fmt.Println("ID:", userAnswer.ID)
