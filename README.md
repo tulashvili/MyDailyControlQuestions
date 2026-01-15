@@ -18,4 +18,4 @@
 - Добавить возможность импорта данных из EXCEL, который:
     - разбит по неделям
     - каждая неделя - один лист
-- Создать makefile и прикрутить линтер
+- ~~Создать makefile и прикрутить линтер~~ ([MR](https://github.com/tulashvili/MyDailyControlQuestions/commit/b381af895f580a186e9eb7a07be5a0b26dc70f4f))
