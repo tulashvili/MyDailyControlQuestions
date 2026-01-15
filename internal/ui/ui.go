@@ -1,10 +1,12 @@
 package ui
 
 import (
+	"database/sql"
 	"fmt"
 
 	"github.com/tulashvili/MyDailyControlQuestions/internal/models"
 	"github.com/tulashvili/MyDailyControlQuestions/internal/service"
+	"github.com/tulashvili/MyDailyControlQuestions/internal/storage"
 )
 
 // Get question list with category
@@ -37,4 +39,28 @@ func AskQuestion(questions []models.Question) []models.UserAnswer {
 		}
 	}
 	return result
+}
+
+// Show data over period
+func ShowDataOverPeriod(conn *sql.DB) error {
+	period := 2
+	rows, err := storage.SelectRows(conn, period)
+	if err != nil {
+		return err
+	}
+
+	for _, row := range rows {
+		formatedPrintResult(row)
+	}
+	return nil
+}
+
+// Formated result from SelectRow
+func formatedPrintResult(userAnswer storage.UserAnswerRow) {
+	fmt.Println("---------------------")
+	fmt.Println("ID:", userAnswer.ID)
+	fmt.Println("Дата:", userAnswer.AnsweredAt)
+	fmt.Println("Категория:", userAnswer.Category)
+	fmt.Println("Вопрос:", userAnswer.Question)
+	fmt.Println("Ответ:", userAnswer.Answer)
 }
