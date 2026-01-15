@@ -60,17 +60,6 @@ func SelectRows(conn *sql.DB, period int) ([]UserAnswerRow, error) {
 			return nil, err
 		}
 		userAnswerRow = append(userAnswerRow, row)
-		formatedPrintResult(row)
 	}
 	return userAnswerRow, err
-}
-
-// Formated result from SelectRow
-func formatedPrintResult(userAnswer UserAnswerRow) {
-	fmt.Println("---------------------")
-	fmt.Println("ID:", userAnswer.ID)
-	fmt.Println("Дата:", userAnswer.AnsweredAt)
-	fmt.Println("Категория:", userAnswer.Category)
-	fmt.Println("Вопрос:", userAnswer.Question)
-	fmt.Println("Ответ:", userAnswer.Answer)
 }

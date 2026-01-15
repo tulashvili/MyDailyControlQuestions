@@ -40,10 +40,10 @@ func GetQuestions() []models.Question {
 	return QUESTIONS
 }
 
-// Validate user answer (answer must be between 1 and 5)
+// Validate user answer
 func ValidateAnswer(answer int) error {
 	if answer < 1 || answer > 5 {
-		return fmt.Errorf("Ответ должен быть в диапазоне между 1 и 5")
+		return fmt.Errorf("answer must be between 1 and 5")
 	}
 	return nil
 }
@@ -51,6 +51,7 @@ func ValidateAnswer(answer int) error {
 // Init user answer
 func CreateUserAnswer(question models.Question, answer int) models.UserAnswer {
 	now := time.Now()
+	
 
 	return models.UserAnswer{
 		QuestionCategory: string(question.Category),
@@ -58,7 +59,8 @@ func CreateUserAnswer(question models.Question, answer int) models.UserAnswer {
 		Answer:           answer,
 		AnsweredAt:       &now,
 	}
-
 }
+
+
 
 
