@@ -6,7 +6,7 @@ import (
 
 	"github.com/tulashvili/MyDailyControlQuestions/internal/models"
 	"github.com/tulashvili/MyDailyControlQuestions/internal/service"
-	"github.com/tulashvili/MyDailyControlQuestions/internal/storage"
+	"github.com/tulashvili/MyDailyControlQuestions/internal/repo"
 )
 
 // Get question list with category
@@ -44,7 +44,7 @@ func AskQuestion(questions []models.Question) []models.UserAnswer {
 // Show data over period
 func ShowDataOverPeriod(conn *sql.DB) error {
 	period := 2
-	rows, err := storage.SelectRows(conn, period)
+	rows, err := repository.SelectRows(conn, period)
 	if err != nil {
 		return err
 	}
@@ -56,7 +56,7 @@ func ShowDataOverPeriod(conn *sql.DB) error {
 }
 
 // Formated result from SelectRow
-func formatedPrintResult(userAnswer storage.UserAnswerRow) {
+func formatedPrintResult(userAnswer repository.UserAnswerRow) {
 	fmt.Println("---------------------")
 	fmt.Println("ID:", userAnswer.ID)
 	fmt.Println("Дата:", userAnswer.AnsweredAt)

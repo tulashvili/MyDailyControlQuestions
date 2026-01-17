@@ -1,33 +1,44 @@
 package app
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 
+	"github.com/tulashvili/MyDailyControlQuestions/internal/config"
+	repository "github.com/tulashvili/MyDailyControlQuestions/internal/repo"
 	"github.com/tulashvili/MyDailyControlQuestions/internal/service"
-	"github.com/tulashvili/MyDailyControlQuestions/internal/storage"
 	"github.com/tulashvili/MyDailyControlQuestions/internal/ui"
+
+	"github.com/tulashvili/MyDailyControlQuestions/pkg/db"
 )
 
 const (
 	sqliteStoragePath = "data/sqlite3.db"
 )
 
+type App struct {
+	DB     *sql.DB
+	Config config.Config
+}
+
 func RunApp() {
+
 	questions := service.GetQuestions()
 	answers := ui.AskQuestion(questions)
 
-	conn, err := storage.InitDB(sqliteStoragePath)
+	// DB
+	conn, err := db.InitDB(sqliteStoragePath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if err := storage.CreateTable(conn); err != nil {
+	if err := db.CreateTable(conn); err != nil {
 		log.Fatal(err)
 	}
 
 	for _, answer := range answers {
-		if err := storage.InsertRow(conn, answer); err != nil {
+		if err := repository.InsertRow(conn, answer); err != nil {
 			log.Fatal(err)
 		}
 	}

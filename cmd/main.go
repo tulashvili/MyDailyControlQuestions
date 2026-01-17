@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	app "github.com/tulashvili/MyDailyControlQuestions"
+	app "github.com/tulashvili/MyDailyControlQuestions/internal"
 )
 
 func main() {
