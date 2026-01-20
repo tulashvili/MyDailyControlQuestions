@@ -7,9 +7,11 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func InitDB(databasePath string) (*sql.DB, error) {
-	fmt.Printf("🔌 Соединение с базой %s установлено\n", databasePath) // change to log?
-	return sql.Open("sqlite3", databasePath)
+// move this to migrate.go
+
+func InitDB(path Datasource) (*sql.DB, error) {
+	fmt.Printf("🔌 Соединение с базой %s установлено\n", path) // change to log?
+	return sql.Open("sqlite3", path.SqlitePath)
 
 }
 

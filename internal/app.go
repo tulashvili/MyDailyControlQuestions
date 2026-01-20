@@ -1,7 +1,6 @@
 package app
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 
@@ -13,22 +12,24 @@ import (
 	"github.com/tulashvili/MyDailyControlQuestions/pkg/db"
 )
 
-const (
-	sqliteStoragePath = "data/sqlite3.db"
-)
-
 type App struct {
-	DB     *sql.DB
 	Config config.Config
 }
 
 func RunApp() {
+	// app := App{
+	// 	Config: cfg,
+	// }
+	
+	// config.LoadConfig()
 
+	// Logic???
 	questions := service.GetQuestions()
 	answers := ui.AskQuestion(questions)
+	dbPath := db.LoadDatasource()
 
 	// DB
-	conn, err := db.InitDB(sqliteStoragePath)
+	conn, err := db.InitDB(dbPath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -44,6 +45,7 @@ func RunApp() {
 	}
 	fmt.Println("✅ Данные успешно добавлены в таблицу daily_log") // change to log?
 
+	// UI
 	if err := ui.ShowDataOverPeriod(conn); err != nil {
 		log.Panic(err)
 	}

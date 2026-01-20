@@ -1,12 +1,15 @@
 package config
 
-import "github.com/tulashvili/MyDailyControlQuestions/pkg/db"
+import (
+	"os"
+)
 
 type Config struct {
-	DS db.Datasource
+	DbPath string
 }
 
-func NewConfig() (Config, error) {
-	cfg := Config{}
-	return cfg, nil
+func LoadConfig() Config {
+	return Config{
+		DbPath: os.Getenv("DB_PATH"),
+	}
 }
