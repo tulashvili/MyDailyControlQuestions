@@ -8,5 +8,5 @@ import (
 
 func main() {
 	time.Local = time.UTC
-	app.RunApp()
+	app.NewApp()
 }

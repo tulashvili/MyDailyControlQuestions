@@ -1,15 +1,16 @@
-package db
+package sqlitedb
 
 import (
 	"database/sql"
 	"fmt"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/tulashvili/MyDailyControlQuestions/pkg/db"
 )
 
 // move this to migrate.go
 
-func InitDB(path Datasource) (*sql.DB, error) {
+func InitDB(path db.DataSource) (*sql.DB, error) {
 	fmt.Printf("🔌 Соединение с базой %s установлено\n", path) // change to log?
 	return sql.Open("sqlite3", path.SqlitePath)
 

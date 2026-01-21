@@ -1,15 +1,15 @@
 package config
 
 import (
-	"os"
+	"github.com/tulashvili/MyDailyControlQuestions/pkg/db"
 )
 
 type Config struct {
-	DbPath string
+	DbPath db.DataSource
 }
 
-func LoadConfig() Config {
-	return Config{
-		DbPath: os.Getenv("DB_PATH"),
-	}
-}
+// func LoadConfig() Config {
+// 	return Config{
+// 		DbPath: os.Getenv("DB_PATH"),
+// 	}
+// }

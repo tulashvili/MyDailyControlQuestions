@@ -13,7 +13,7 @@ type UserAnswer struct {
 }
 
 type Question struct {
-	Category Category
+	Category
 	Text     string
 }
 
