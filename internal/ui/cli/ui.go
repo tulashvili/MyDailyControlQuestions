@@ -1,27 +1,22 @@
 /*
 Copyright © 2026 NAME HERE <EMAIL ADDRESS>
-
 */
 package cli
 
 import (
-	"os"
+	"database/sql"
+	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/tulashvili/MyDailyControlQuestions/internal/models"
+	"github.com/tulashvili/MyDailyControlQuestions/internal/service"
 )
-
-
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "MyDailyControlQuestions",
 	Short: "Ежедневная саморефлексия путем ответа на важные для тебя вопросы по 5-ти бальной шкале",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Long:  ``,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
@@ -29,10 +24,14 @@ to quickly create a Cobra application.`,
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
-		os.Exit(1)
+func Execute(conn *sql.DB, ) {
+	db = conn
+
+	statsCmd.Flags().IntVarP(&period, "period", "p", 1, "Stats over the period")
+	statsCmd.MarkFlagRequired("stats")
+
+	if err := rootCmd.Execute(); err != nil {
+		panic(err)
 	}
 }
 
@@ -48,4 +47,34 @@ func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
+// Get question list with category
+func GetQuestions(questions []models.Question) {
+	for _, question := range questions {
+		fmt.Println("Категория:", question.Category)
+		fmt.Println("Вопрос:", question.Text)
+	}
+}
 
+// Ask a question to a client
+func AskQuestion(questions []models.Question) []models.UserAnswer {
+	var result []models.UserAnswer
+
+	for _, question := range questions {
+		fmt.Println("Категория:", question.Category)
+		fmt.Println("Вопрос:", question.Text)
+
+		var answer int
+		fmt.Scanln(&answer)
+
+		err := service.ValidateAnswer(answer)
+		if err != nil {
+			fmt.Println(err)
+			fmt.Println("Введи значение заново")
+			fmt.Scanln(&answer)
+		} else {
+			userAnswer := service.CreateUserAnswer(question, answer)
+			result = append(result, userAnswer)
+		}
+	}
+	return result
+}

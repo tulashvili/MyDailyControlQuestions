@@ -2,7 +2,7 @@ package sqlitedb
 
 import (
 	"database/sql"
-	"fmt"
+	"log/slog"
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/tulashvili/MyDailyControlQuestions/pkg/db"
@@ -11,8 +11,14 @@ import (
 // move this to migrate.go
 
 func InitDB(path db.DataSource) (*sql.DB, error) {
-	fmt.Printf("🔌 Соединение с базой %s установлено\n", path) // change to log?
-	return sql.Open("sqlite3", path.SqlitePath)
+	conn, err := sql.Open("sqlite3", path.SqlitePath)
+	if err == nil {
+		slog.Info(
+			"Соединение с базой установлено",
+			"sqlite_path", path.SqlitePath,
+		)
+	}
+	return conn, err
 
 }
 
@@ -29,6 +35,8 @@ func CreateTable(conn *sql.DB) error {
 	);
 	`
 	_, err := conn.Exec(query)
-	fmt.Println("✅ Таблица daily_log готова к использованию") // change to log?
+	if err == nil {
+		slog.Info("Таблица daily_log готова к использованию")
+	}
 	return err
 }

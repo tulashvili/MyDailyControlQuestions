@@ -1,10 +1,13 @@
 package service
 
 import (
+	"database/sql"
 	"fmt"
 	"time"
 
 	"github.com/tulashvili/MyDailyControlQuestions/internal/models"
+	repository "github.com/tulashvili/MyDailyControlQuestions/internal/repo"
+	"github.com/tulashvili/MyDailyControlQuestions/pkg"
 )
 
 const (
@@ -51,7 +54,6 @@ func ValidateAnswer(answer int) error {
 // Init user answer
 func CreateUserAnswer(question models.Question, answer int) models.UserAnswer {
 	now := time.Now()
-	
 
 	return models.UserAnswer{
 		QuestionCategory: string(question.Category),
@@ -61,6 +63,15 @@ func CreateUserAnswer(question models.Question, answer int) models.UserAnswer {
 	}
 }
 
+// Show data over period
+func ShowDataOverPeriod(period int, conn *sql.DB) error {
+	rows, err := repository.SelectRows(conn, period)
+	if err != nil {
+		return err
+	}
 
-
-
+	for _, row := range rows {
+		pkg.FormatedPrintResult(row)
+	}
+	return nil
+}
