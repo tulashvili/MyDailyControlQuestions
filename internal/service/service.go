@@ -1,13 +1,10 @@
 package service
 
 import (
-	"database/sql"
 	"fmt"
 	"time"
 
 	"github.com/tulashvili/MyDailyControlQuestions/internal/models"
-	repository "github.com/tulashvili/MyDailyControlQuestions/internal/repo"
-	"github.com/tulashvili/MyDailyControlQuestions/pkg"
 )
 
 const (
@@ -61,17 +58,4 @@ func CreateUserAnswer(question models.Question, answer int) models.UserAnswer {
 		Answer:           answer,
 		AnsweredAt:       &now,
 	}
-}
-
-// Show data over period
-func ShowDataOverPeriod(period int, conn *sql.DB) error {
-	rows, err := repository.SelectRows(conn, period)
-	if err != nil {
-		return err
-	}
-
-	for _, row := range rows {
-		pkg.FormatedPrintResult(row)
-	}
-	return nil
 }

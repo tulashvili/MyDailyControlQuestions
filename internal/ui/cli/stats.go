@@ -5,10 +5,10 @@ package cli
 
 import (
 	"database/sql"
+	"fmt"
 
 	"github.com/spf13/cobra"
 	repository "github.com/tulashvili/MyDailyControlQuestions/internal/repo"
-	"github.com/tulashvili/MyDailyControlQuestions/pkg"
 )
 
 var (
@@ -29,21 +29,20 @@ and usage of using your command.`,
 		}
 
 		for _, row := range rows {
-			pkg.FormatedPrintResult(row)
+			FormatedPrintResult(row)
 		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(statsCmd)
+}
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// statsCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	statsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+func FormatedPrintResult(userAnswer repository.UserAnswerRow) {
+	fmt.Println("---------------------")
+	fmt.Println("ID:", userAnswer.ID)
+	fmt.Println("Дата:", userAnswer.AnsweredAt)
+	fmt.Println("Категория:", userAnswer.Category)
+	fmt.Println("Вопрос:", userAnswer.Question)
+	fmt.Println("Ответ:", userAnswer.Answer)
 }
