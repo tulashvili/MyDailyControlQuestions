@@ -22,7 +22,7 @@ func Execute(conn *sql.DB) {
 	statsCmd.MarkFlagRequired("stats")
 
 	rootCmd.AddCommand(listQuestionsCmd)
-	rootCmd.AddCommand(askQuestionsCmd)
+	// rootCmd.AddCommand(askQuestionsCmd)
 
 	if err := rootCmd.Execute(); err != nil {
 		panic(err)

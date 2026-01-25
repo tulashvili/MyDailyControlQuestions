@@ -2,6 +2,7 @@ package domain
 
 import "errors"
 
+// Validate user answer
 func ValidateAnswer(answer int) error {
 	if answer < 1 || answer > 5 {
 		return errors.New("answer must be between 1 and 5")

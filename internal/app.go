@@ -20,8 +20,7 @@ func NewApp(conf config.Config) error {
 		Config: conf,
 	}
 	// Logic???
-	// questions := service.GetQuestions()
-	// answers := ui.AskQuestion(questions)
+	// answers := usecase.AskQuestion(questions)
 
 	// DB
 	var err error

@@ -7,15 +7,15 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"github.com/tulashvili/MyDailyControlQuestions/internal/service"
+	"github.com/tulashvili/MyDailyControlQuestions/internal/usecase"
 )
 
 var listQuestionsCmd = &cobra.Command{
 	Use:   "list_questions",
-	Short: "Список текущих вопросов",
+	Short: "Получить список текущих вопросов",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		questions := service.GetQuestions()
+		questions := usecase.GetQuestionList()
 
 		for _, question := range questions {
 			fmt.Println("Категория:", question.Category)

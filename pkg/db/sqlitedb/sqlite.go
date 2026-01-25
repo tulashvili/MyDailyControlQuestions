@@ -29,9 +29,7 @@ func CreateTable(conn *sql.DB) error {
 		category TEXT NOT NULL,
 		question TEXT NOT NULL,
 		answer INTEGER NOT NULL,
-		answeredAt TEXT NOT NULL,
-
-		UNIQUE (answeredAt)
+		answeredAt TEXT DEFAULT CURRENT_TIMESTAMP
 	);
 	`
 	_, err := conn.Exec(query)

@@ -7,63 +7,61 @@ import (
 	"github.com/tulashvili/MyDailyControlQuestions/internal/domain"
 )
 
-type UserAnswerRow struct {
-	ID         int
-	Category   string
-	Question   string
-	Answer     int
-	AnsweredAt string
-}
-
-type SQLiteRepo struct {
+type SQLiteAnswerRepository struct {
     db *sql.DB
 }
 
-// ToDo: Create interface for db methods ??
-// type .... interface { .... }
+func NewSQLiteAnswerRepository(db *sql.DB) *SQLiteAnswerRepository {
+	return &SQLiteAnswerRepository{db: db}
+}
 
-// Insert question answers
-func InsertRow(conn SQLiteRepo, data domain.UserAnswer) error {
-	query := `
-	INSERT INTO daily_log (category, question, answer, answeredAt)
-	VALUES (?, ?, ?, ?)
-	`
-	_, err := conn.db.Exec(
-		query,
-		data.QuestionCategory,
-		data.QuestionText,
-		data.Answer,
-		data.AnsweredAt,
-	)
-	return err
+// Save answers to questions
+func (r *SQLiteAnswerRepository) SaveAnswer(answer domain.UserAnswer) error {
+    query := `
+        INSERT INTO daily_log (category, question, answer, answeredAt)
+        VALUES (?, ?, ?, ?)
+    `
+    _, err := r.db.Exec(
+        query,
+        answer.QuestionCategory,
+        answer.QuestionText,
+        answer.Answer,
+        answer.AnsweredAt,
+    )
+    return err
 }
 
 // Get data over some period
-func SelectRows(conn SQLiteRepo, period int) ([]UserAnswerRow, error) {
-	periodDay := fmt.Sprintf("-%d days", period)
-	query := `
-	SELECT * FROM daily_log
-	WHERE answeredAt >= datetime('now', ?);
-	`
+func (r *SQLiteAnswerRepository) GetAnswers(period int) ([]domain.UserAnswer, error) {
+    periodDay := fmt.Sprintf("-%d days", period)
+    query := `
+        SELECT category, question, answer, answeredAt
+        FROM daily_log
+        WHERE answeredAt >= datetime('now', ?);
+    `
 
-	response, err := conn.db.Query(query, periodDay)
+    rows, err := r.db.Query(query, periodDay)
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close()
 
-	userAnswerRow := make([]UserAnswerRow, 0)
+    var result []domain.UserAnswer
 
-	for response.Next() {
-		var row UserAnswerRow
+    for rows.Next() {
+        var ua domain.UserAnswer
 
-		err := response.Scan(
-			&row.ID,
-			&row.Category,
-			&row.Question,
-			&row.Answer,
-			&row.AnsweredAt,
-		)
-		if err != nil {
-			return nil, err
-		}
-		userAnswerRow = append(userAnswerRow, row)
-	}
-	return userAnswerRow, err
+        if err := rows.Scan(
+            &ua.QuestionCategory,
+            &ua.QuestionText,
+            &ua.Answer,
+            &ua.AnsweredAt,
+        ); err != nil {
+            return nil, err
+        }
+
+        result = append(result, ua)
+    }
+
+    return result, nil
 }

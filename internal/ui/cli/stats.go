@@ -6,9 +6,12 @@ package cli
 import (
 	"database/sql"
 	"fmt"
+	"log"
 
 	"github.com/spf13/cobra"
-	repository "github.com/tulashvili/MyDailyControlQuestions/internal/repo"
+	"github.com/tulashvili/MyDailyControlQuestions/internal/domain"
+	"github.com/tulashvili/MyDailyControlQuestions/internal/repo"
+	"github.com/tulashvili/MyDailyControlQuestions/internal/usecase"
 )
 
 var (
@@ -20,20 +23,28 @@ var (
 var statsCmd = &cobra.Command{
 	Use:   "stats",
 	Short: "Получить статистику ответов за Х дней",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command.`,
+	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		rows, err := repository.SelectRows(db, period)
+		repo := repo.NewSQLiteAnswerRepository(db)
+		stats, err := usecase.NewGetStat(repo).Execute(period)
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
-
-		for _, row := range rows {
-			FormatedPrintResult(row)
+		for _, answer := range stats {
+			formatedPrintResult(answer)
 		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(statsCmd)
+}
+
+func formatedPrintResult(userAnswer domain.UserAnswer) {
+	fmt.Println("---------------------")
+	fmt.Println("ID:", userAnswer.ID)
+	fmt.Println("Дата:", userAnswer.AnsweredAt)
+	fmt.Println("Категория:", userAnswer.QuestionCategory)
+	fmt.Println("Вопрос:", userAnswer.QuestionText)
+	fmt.Println("Ответ:", userAnswer.Answer)
 }
