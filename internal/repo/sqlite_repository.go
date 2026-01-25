@@ -16,7 +16,7 @@ func NewSQLiteAnswerRepository(db *sql.DB) *SQLiteAnswerRepository {
 }
 
 // Save answers to questions
-func (r *SQLiteAnswerRepository) SaveAnswer(answer domain.UserAnswer) error {
+func (r *SQLiteAnswerRepository) SaveAnswers(answer domain.UserAnswer) error {
     query := `
         INSERT INTO daily_log (category, question, answer, answeredAt)
         VALUES (?, ?, ?, ?)

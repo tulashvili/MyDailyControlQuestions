@@ -19,8 +19,6 @@ func NewApp(conf config.Config) error {
 	app := &App{
 		Config: conf,
 	}
-	// Logic???
-	// answers := usecase.AskQuestion(questions)
 
 	// DB
 	var err error
@@ -33,11 +31,6 @@ func NewApp(conf config.Config) error {
 		log.Fatal(err)
 	}
 
-	// for _, answer := range answers {
-	// 	if err := repository.InsertRow(app.DB, answer); err != nil {
-	// 		log.Fatal(err)
-	// 	}
-	// }
 	cli.Execute(app.DB)
 	return err
 }
