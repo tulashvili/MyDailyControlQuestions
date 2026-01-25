@@ -40,9 +40,5 @@ func NewApp(conf config.Config) error {
 	// 	}
 	// }
 	cli.Execute(app.DB)
-	// // UI
-	// if err := service.ShowDataOverPeriod(app.DB); err != nil {
-	// 	log.Panic(err)
-	// }
 	return err
 }

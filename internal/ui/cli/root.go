@@ -5,11 +5,8 @@ package cli
 
 import (
 	"database/sql"
-	"fmt"
 
 	"github.com/spf13/cobra"
-	"github.com/tulashvili/MyDailyControlQuestions/internal/models"
-	"github.com/tulashvili/MyDailyControlQuestions/internal/service"
 )
 
 var rootCmd = &cobra.Command{
@@ -25,6 +22,7 @@ func Execute(conn *sql.DB) {
 	statsCmd.MarkFlagRequired("stats")
 
 	rootCmd.AddCommand(listQuestionsCmd)
+	rootCmd.AddCommand(askQuestionsCmd)
 
 	if err := rootCmd.Execute(); err != nil {
 		panic(err)
@@ -33,28 +31,4 @@ func Execute(conn *sql.DB) {
 
 func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-}
-
-// Ask a question to a client
-func AskQuestion(questions []models.Question) []models.UserAnswer {
-	var result []models.UserAnswer
-
-	for _, question := range questions {
-		fmt.Println("Категория:", question.Category)
-		fmt.Println("Вопрос:", question.Text)
-
-		var answer int
-		fmt.Scanln(&answer)
-
-		err := service.ValidateAnswer(answer)
-		if err != nil {
-			fmt.Println(err)
-			fmt.Println("Введи значение заново")
-			fmt.Scanln(&answer)
-		} else {
-			userAnswer := service.CreateUserAnswer(question, answer)
-			result = append(result, userAnswer)
-		}
-	}
-	return result
 }

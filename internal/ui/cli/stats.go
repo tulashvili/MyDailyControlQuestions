@@ -37,12 +37,3 @@ and usage of using your command.`,
 func init() {
 	rootCmd.AddCommand(statsCmd)
 }
-
-func FormatedPrintResult(userAnswer repository.UserAnswerRow) {
-	fmt.Println("---------------------")
-	fmt.Println("ID:", userAnswer.ID)
-	fmt.Println("Дата:", userAnswer.AnsweredAt)
-	fmt.Println("Категория:", userAnswer.Category)
-	fmt.Println("Вопрос:", userAnswer.Question)
-	fmt.Println("Ответ:", userAnswer.Answer)
-}

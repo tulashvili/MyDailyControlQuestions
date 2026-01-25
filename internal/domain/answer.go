@@ -1,8 +1,6 @@
-package models
+package domain
 
-import (
-	"time"
-)
+import "time"
 
 type UserAnswer struct {
 	ID               int
@@ -11,10 +9,3 @@ type UserAnswer struct {
 	Answer           int
 	AnsweredAt       *time.Time
 }
-
-type Question struct {
-	Category
-	Text     string
-}
-
-type Category string
