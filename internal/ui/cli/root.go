@@ -9,6 +9,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	db     *sql.DB
+	period int
+)
+
 var rootCmd = &cobra.Command{
 	Use:   "MyDailyControlQuestions",
 	Short: "Ежедневная саморефлексия путем ответа на важные для тебя вопросы по 5-ти бальной шкале",
@@ -18,11 +23,15 @@ var rootCmd = &cobra.Command{
 func Execute(conn *sql.DB) {
 	db = conn
 
+	// get stats answer
 	statsCmd.Flags().IntVarP(&period, "period", "p", 1, "Stats over the period")
 	statsCmd.MarkFlagRequired("stats")
 
+	// get list question
 	rootCmd.AddCommand(listQuestionsCmd)
-	// rootCmd.AddCommand(askQuestionsCmd)
+
+	// run survey
+	rootCmd.AddCommand(askQuestionsCmd)
 
 	if err := rootCmd.Execute(); err != nil {
 		panic(err)

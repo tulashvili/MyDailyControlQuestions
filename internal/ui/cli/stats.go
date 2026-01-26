@@ -4,7 +4,6 @@ Copyright © 2026 NAME HERE <EMAIL ADDRESS>
 package cli
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 
@@ -12,11 +11,6 @@ import (
 	"github.com/tulashvili/MyDailyControlQuestions/internal/domain"
 	"github.com/tulashvili/MyDailyControlQuestions/internal/repo"
 	"github.com/tulashvili/MyDailyControlQuestions/internal/usecase"
-)
-
-var (
-	db     *sql.DB
-	period int
 )
 
 // statsCmd represents the stats command

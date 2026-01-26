@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/tulashvili/MyDailyControlQuestions/internal/config"
-	"github.com/tulashvili/MyDailyControlQuestions/internal/ui/cli"
 
 	"github.com/tulashvili/MyDailyControlQuestions/pkg/db/sqlitedb"
 )
@@ -15,7 +14,7 @@ type App struct {
 	Config config.Config
 }
 
-func NewApp(conf config.Config) error {
+func NewApp(conf config.Config) (App, error) {
 	app := &App{
 		Config: conf,
 	}
@@ -30,7 +29,7 @@ func NewApp(conf config.Config) error {
 	if err := sqlitedb.CreateTable(app.DB); err != nil {
 		log.Fatal(err)
 	}
-
-	cli.Execute(app.DB)
-	return err
+	return App{
+		DB: app.DB,
+	}, err
 }
