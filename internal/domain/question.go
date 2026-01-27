@@ -1,18 +1,18 @@
-package service
+package domain
 
-import (
-	"fmt"
-	"time"
+type Question struct {
+	Category
+	Text     string
+}
 
-	"github.com/tulashvili/MyDailyControlQuestions/internal/models"
-)
+type Category string
 
 const (
-	Biology    models.Category = "Биология"
-	Psychology models.Category = "Психология"
+	Biology    Category = "Биология"
+	Psychology Category = "Психология"
 )
 
-var QUESTIONS = []models.Question{
+var QUESTIONS = []Question{
 	{
 		Category: Psychology,
 		Text:     "Насколько высокий уровень стресса сегодня? (1 - очень стрессовый день, 5 - стресса почти не было)",
@@ -34,33 +34,3 @@ var QUESTIONS = []models.Question{
 		Text:     "В рационе было достаточно белка и клетчатки? (1 - не было, 5 - да)",
 	},
 }
-
-// Return question list with category
-func GetQuestions() []models.Question {
-	return QUESTIONS
-}
-
-// Validate user answer
-func ValidateAnswer(answer int) error {
-	if answer < 1 || answer > 5 {
-		return fmt.Errorf("answer must be between 1 and 5")
-	}
-	return nil
-}
-
-// Init user answer
-func CreateUserAnswer(question models.Question, answer int) models.UserAnswer {
-	now := time.Now()
-	
-
-	return models.UserAnswer{
-		QuestionCategory: string(question.Category),
-		QuestionText:     question.Text,
-		Answer:           answer,
-		AnsweredAt:       &now,
-	}
-}
-
-
-
-

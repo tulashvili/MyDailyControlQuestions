@@ -1,2 +1,5 @@
 *.json
-*.db
+data/
+.DS_Store
+.env
+.vscode
