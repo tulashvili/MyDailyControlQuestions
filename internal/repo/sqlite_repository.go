@@ -3,6 +3,7 @@ package repo
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	"github.com/tulashvili/MyDailyControlQuestions/internal/domain"
 )
@@ -26,7 +27,7 @@ func (r *SQLiteAnswerRepository) SaveAnswer(answer domain.UserAnswer) error {
 		answer.QuestionCategory,
 		answer.QuestionText,
 		answer.Answer,
-		answer.AnsweredAt,
+		answer.AnsweredAt.UTC().Format(time.RFC3339Nano),
 	)
 	return err
 }
@@ -47,6 +48,7 @@ func (r *SQLiteAnswerRepository) GetAnswers(period int) ([]domain.UserAnswer, er
 	defer rows.Close()
 
 	var result []domain.UserAnswer
+	var answeredAtStr sql.NullString
 
 	for rows.Next() {
 		var ua domain.UserAnswer
@@ -55,9 +57,17 @@ func (r *SQLiteAnswerRepository) GetAnswers(period int) ([]domain.UserAnswer, er
 			&ua.QuestionCategory,
 			&ua.QuestionText,
 			&ua.Answer,
-			&ua.AnsweredAt,
+			&answeredAtStr,
 		); err != nil {
 			return nil, err
+		}
+
+		if answeredAtStr.Valid {
+			t, err := time.Parse(time.RFC3339Nano, answeredAtStr.String)
+			if err != nil {
+				return nil, err
+			}
+			ua.AnsweredAt = &t
 		}
 
 		result = append(result, ua)

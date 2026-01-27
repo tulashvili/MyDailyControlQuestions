@@ -8,7 +8,7 @@ import (
 	"github.com/tulashvili/MyDailyControlQuestions/pkg/db"
 )
 
-// move this to migrate.go
+// ToDo: move this to migrate.go
 
 func InitDB(path db.DataSource) (*sql.DB, error) {
 	conn, err := sql.Open("sqlite3", path.SqlitePath)
@@ -29,7 +29,7 @@ func CreateTable(conn *sql.DB) error {
 		category TEXT NOT NULL,
 		question TEXT NOT NULL,
 		answer INTEGER NOT NULL,
-		answeredAt TEXT DEFAULT CURRENT_TIMESTAMP
+		answeredAt TEXT NOT NULL
 	);
 	`
 	_, err := conn.Exec(query)
